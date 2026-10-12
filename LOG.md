@@ -114,13 +114,13 @@ Verified toast/warning displays properly informing the user of the inventory cei
 
 **Time:**25 mins
 
-## CC-0X — "<the complaint, in short>"
+## CC-07 — "Cancelling makes it worse"
 
-**Reproduced:**
+**Reproduced:**Noted a dish's stock in the menu data (10). Placed an order for 3 of it, and stock dropped to 7, which is correct. Cancelled the order by changing its status to "cancelled". Stock went to 4 instead of back to 10. Repeating place-and-cancel pushed it toward 0 and then negative.
 
-**Cause:**
+**Cause:**The `releaseStock` function had `stock: dish.stock - line.qty`. It subtracted the cancelled quantity instead of adding it back, so every cancel took more plates off the shelf. The cancel route was correct: it calls `releaseStock` with the order's items and saves the result.
 
-**Fix:**
+**Fix:**Changed the line to `stock: dish.stock + line.qty`. I changed it in `releaseStock` because that function decides how stock changes on cancel, and the route only calls it. A cancel now undoes exactly what `reserveStock` took when the order was placed.
 
 **Checked:**
 
