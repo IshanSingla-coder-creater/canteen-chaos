@@ -98,17 +98,21 @@ Confirmed category pill selection and horizontal tab scrolling continue to opera
 
 **Time:**10 mins
 
-## CC-0X — "<the complaint, in short>"
+## CC-06 — "I ordered more than they had"
 
-**Reproduced:**
+**Reproduced:**Selected a dish showing 2 items remaining in stock (e.g., Samosa). Incremented the order quantity to 5 and completed checkout. The application allowed the order to go through without throwing a validation error or capping the order quantity.
 
-**Cause:**
+**Cause:**Absence of a conditional check comparing requested quantity against available inventory (dish.stock < item.qty / newQty > dish.stock). The addition and increment logic executed unconditionally, allowing the cart quantity to surpass actual kitchen availability.
 
-**Fix:**
+**Fix:**Added a guard condition to verify stock limits before modifying cart state:if (dish.stock < item.qty) {
+return errors.push(`Only ${dish.stock} left of ${dish.name}, you asked for ${item.qty}`);
+}
 
-**Checked:**
+**Checked:**Verified the quantity increment button blocks or rejects additions beyond remaining stock (e.g., stops at 2).
+Attempted manually inputting a higher quantity; verified it is rejected or clamped to dish.stock.
+Verified toast/warning displays properly informing the user of the inventory ceiling.
 
-**Time:**
+**Time:**25 mins
 
 ## CC-0X — "<the complaint, in short>"
 
