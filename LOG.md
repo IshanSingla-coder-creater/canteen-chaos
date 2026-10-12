@@ -43,17 +43,19 @@ Verified no unintended overlap or visual clipping occurs on smaller screen sizes
 
 **Time:**5 mins
 
-## CC-0X — "<the complaint, in short>"
+## CC-02 — "Can't read anything in dark mode"
 
-**Reproduced:**
+**Reproduced:**Switched the interface to dark mode (or loaded the page with a dark theme active). While backgrounds and dividers shifted, the dish names and prices remained dark, rendering them almost invisible against the dark card background.
 
-**Cause:**
+**Cause:**The typography in .dish-body lacked dynamic color handling that adapts to the active theme, resulting in insufficient contrast against dark backgrounds.
 
-**Fix:**
+**Fix:**Updated .dish-body in style.css using the native CSS light-dark() function (color: light-dark(#111111, #eeeeee);), automatically serving dark text (#111111) in light mode and high-contrast light text (#eeeeee) in dark mode.
 
-**Checked:**
+**Checked:**Toggled between light and dark modes to verify dish names and prices remain clearly legible in both views.
+Confirmed that the grey divider line and surrounding card styles remain intact.
+Verified text does not disappear or wash out when switching themes.
 
-**Time:**
+**Time:**5 mins
 
 ## CC-0X — "<the complaint, in short>"
 

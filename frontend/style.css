@@ -414,7 +414,7 @@ h3 {
   flex-direction: column;
   gap: 7px;
   flex: 1;
-  color: #2b2118;
+  color: light-dark(#111111, #eeeeee);
 }
 
 .dish-name {
