@@ -1851,6 +1851,7 @@ body.is-offline .site-header {
     bottom: 0;
     height: 58px;
     z-index: 3;
+    pointer-events: none;
   }
   .img-wrap::after {
     top: 0;

@@ -70,17 +70,19 @@ Verified buttons stack cleanly beneath prices without clipping off-screen.
 
 **Time:**7 mins
 
-## CC-0X — "<the complaint, in short>"
+## CC-04 — "The buttons don't work on my tablet"
 
-**Reproduced:**
+**Reproduced:**Tested button interactions on tablet screens and touch viewports. Clicks and taps on the "Add to Cart" and star buttons failed to trigger any action, while hovering/clicking on certain desktop mouse coordinates occasionally worked.
 
-**Cause:**
+**Cause:**.dish-card::after was styled with position: absolute; bottom: 0; height: 58px; z-index: 3; to create an overlay over the bottom section of the card. Because it lacked pointer-events: none;, it created an invisible physical barrier directly above the buttons that intercepted all click and tap events.
 
-**Fix:**
+**Fix:**Added pointer-events: none; to .dish-card::after in style.css, allowing all click and touch gestures to pass cleanly through to the underlying action buttons.
 
-**Checked:**
+**Checked:**Confirmed "Add to Cart" and favorite/star buttons fire properly on touch and click.
+Verified visual transitions and blocked state backgrounds on .dish-card::after continue to render without issues.
+Confirmed behavior is consistent across desktop, tablet, and mobile views.
 
-**Time:**
+**Time:**10 mins
 
 ## CC-0X — "<the complaint, in short>"
 
