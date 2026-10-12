@@ -8,8 +8,6 @@ honestly still counts for something.
 
 Delete the example before you submit.
 
-
-
 ## Example — delete this
 
 ### CC-99 — "The cart total is wrong"
@@ -31,7 +29,19 @@ Prices without decimals still show without a trailing .00.
 **Time:** about 40 minutes, most of it working out that the cart and the
 order screen round in different places.
 
+## CC-01 — "Search suggestions appear behind page elements and cannot be clicked"
 
+**Reproduced:**Typed a query into the dish search bar to trigger the dropdown list. The suggestion list rendered visually underneath subsequent sibling elements and cards on the page. Only the uppermost edge was clickable, while clicks on the rest of the list failed or registered on underlying page content.
+
+**Cause:**The search suggestions dropdown was trapped in a lower stacking context. Sibling containers below the search bar either appeared later in the DOM order with their own positioning contexts or had higher default z-index values, causing them to paint on top of the suggestions.
+
+**Fix:**Elevated the stacking context of the parent search container by applying explicit relative positioning (position: relative) and increasing its z-index (e.g., z-index: 50 or higher), ensuring the dropdown renders above all adjacent page sections.
+
+**Checked:**Verified the suggestion dropdown opens fully over adjacent cards, headers, and content without clipping.
+Confirmed all items in the dropdown list are clickable across their entire hit area.
+Verified no unintended overlap or visual clipping occurs on smaller screen sizes.
+
+**Time:**5 mins
 
 ## CC-0X — "<the complaint, in short>"
 
@@ -45,7 +55,101 @@ order screen round in different places.
 
 **Time:**
 
+## CC-0X — "<the complaint, in short>"
 
+**Reproduced:**
+
+**Cause:**
+
+**Fix:**
+
+**Checked:**
+
+**Time:**
+
+## CC-0X — "<the complaint, in short>"
+
+**Reproduced:**
+
+**Cause:**
+
+**Fix:**
+
+**Checked:**
+
+**Time:**
+
+## CC-0X — "<the complaint, in short>"
+
+**Reproduced:**
+
+**Cause:**
+
+**Fix:**
+
+**Checked:**
+
+**Time:**
+
+## CC-0X — "<the complaint, in short>"
+
+**Reproduced:**
+
+**Cause:**
+
+**Fix:**
+
+**Checked:**
+
+**Time:**
+
+## CC-0X — "<the complaint, in short>"
+
+**Reproduced:**
+
+**Cause:**
+
+**Fix:**
+
+**Checked:**
+
+**Time:**
+
+## CC-0X — "<the complaint, in short>"
+
+**Reproduced:**
+
+**Cause:**
+
+**Fix:**
+
+**Checked:**
+
+**Time:**
+
+## CC-0X — "<the complaint, in short>"
+
+**Reproduced:**
+
+**Cause:**
+
+**Fix:**
+
+**Checked:**
+
+**Time:**
+
+## CC-0X — "<the complaint, in short>"
+
+**Reproduced:**
+
+**Cause:**
+
+**Fix:**
+
+**Checked:**
+
+**Time:**
 
 ## Could not fix
 
@@ -60,8 +164,6 @@ stuck is not.
 **Where I got to:**
 
 **What I would try next:**
-
-
 
 ## Extra credit
 
