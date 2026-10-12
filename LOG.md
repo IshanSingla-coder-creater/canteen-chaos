@@ -57,17 +57,18 @@ Verified text does not disappear or wash out when switching themes.
 
 **Time:**5 mins
 
-## CC-0X — "<the complaint, in short>"
+## CC-03 — "The menu is wider than my phone"
 
-**Reproduced:**
+**Reproduced:**Set responsive viewport below 320px down to 240px. While min-width: 0; resolved the issue on standard mobile widths (320px+), sub-260px viewports caused internal row layouts (price and "Add to Cart" button) to collide and push beyond the card boundary.
 
-**Cause:**
+**Cause:**Fixed rigid child flex rows inside .dish-card exceeded the sub-260px viewport width, preventing nested elements from wrapping vertically.
 
-**Fix:**
+**Fix:**Retained min-width: 0; on .dish-card to resolve default flex container expansion.
 
-**Checked:**
+**Checked:**Confirmed layout scales smoothly and without horizontal overflow from 240px up to desktop viewports.
+Verified buttons stack cleanly beneath prices without clipping off-screen.
 
-**Time:**
+**Time:**7 mins
 
 ## CC-0X — "<the complaint, in short>"
 

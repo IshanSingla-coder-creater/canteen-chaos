@@ -343,6 +343,7 @@ h3 {
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .dish-card.blocked {
