@@ -1212,7 +1212,7 @@ h3 {
 
 @media (max-width: 480px) {
   .view {
-    overflow-x: hidden;
+    overflow-x: clips;
   }
 
   .nav-toggle {

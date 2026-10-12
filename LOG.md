@@ -84,17 +84,19 @@ Confirmed behavior is consistent across desktop, tablet, and mobile views.
 
 **Time:**10 mins
 
-## CC-0X — "<the complaint, in short>"
+## CC-05 — "The category bar scrolls away on my phone"
 
-**Reproduced:**
+**Reproduced:**Tested on mobile screens. Scrolled down through the dish list; the .filters and .cat-tabs bars scrolled out of view along with the rest of the page rather than remaining anchored at the top of the viewport.
 
-**Cause:**
+**Cause:**html, body had overflow-x: hidden; applied. In CSS, applying overflow: hidden (or overflow-x: hidden) to html or body disables standard viewport scroll context for descendants, causing all position: sticky rules on child elements to fail silently.
 
-**Fix:**
+**Fix:**Replaced overflow-x: hidden; on html, body with overflow-x: clip;. This cuts off unwanted horizontal overflow without interfering with viewport scrolling contexts, restoring normal position: sticky behavior for the navigation and category bars.
 
-**Checked:**
+**Checked:**Confirmed the category/filter bar sticks firmly to the top while scrolling through the full dish menu on mobile viewports (< 480px).
+Verified no horizontal page scrolling or layout spillage occurs.
+Confirmed category pill selection and horizontal tab scrolling continue to operate normally while pinned.
 
-**Time:**
+**Time:**10 mins
 
 ## CC-0X — "<the complaint, in short>"
 
