@@ -122,33 +122,42 @@ Verified toast/warning displays properly informing the user of the inventory cei
 
 **Fix:**Changed the line to `stock: dish.stock + line.qty`. I changed it in `releaseStock` because that function decides how stock changes on cancel, and the route only calls it. A cancel now undoes exactly what `reserveStock` took when the order was placed.
 
-**Checked:**
+**Checked:**Reset the data, restarted the server, placed an order for 3 and cancelled it. Stock returned to 10. Repeated place-and-cancel several times and stock stayed at 10 each time. Also checked that an order with several dishes restores every dish on cancel.
 
-**Time:**
+**Time:**30 mins
 
-## CC-0X — "<the complaint, in short>"
-
-**Reproduced:**
-
-**Cause:**
-
-**Fix:**
-
-**Checked:**
-
-**Time:**
-
-## CC-0X — "<the complaint, in short>"
+## ## CC-09 — "The menu shows more dishes than it should"
 
 **Reproduced:**
+Requested the menu with a small limit (`/api/menu?limit=3`). The response said `limit: 3`, `pages: 13` and `hasMore: true`, but the `dishes` array contained all 37 dishes. The front page was also sending `page=1&limit=5` correctly, so the browser was asking for a small page and the server was still sending everything.
 
 **Cause:**
+In the `paginate` function, the page of dishes was cut correctly into `items` with `list.slice(start, start + perPage)`, but the return statement had `items: list`, which sent back the full list instead of the sliced one. The menu route passes `paged.items` to the browser as `dishes`, so every request returned the whole menu. The page numbers (`pages`, `hasMore`, `total`) were calculated correctly, which is why the response looked right but held too many dishes.
 
 **Fix:**
+Changed `items: list` to `items` in the return statement of `paginate`, so it returns the sliced page. I fixed it there because `paginate` is the one function that builds a page, and both the route and the frontend were already correct.
 
 **Checked:**
+Restarted the server and reloaded the front page. The menu request with `page=1&limit=5` now returns only 5 dishes, and more load as I scroll. Requested `limit=3` pages 1, 2 and 13 and got 3, 3 and 1 dishes with no repeats, `total` 37, and `hasMore` true, true and false. I noticed a `page=2` request arriving before the page loaded. That came from an old tab that was still open, and a fresh tab starts at `page=1`, so it is not a separate bug.
+
+**Time:** 40 mins
+
+## CC-10 — "Sorting by price is backwards"
+
+**Reproduced:**
+Requested the menu with `sort=price-asc` and got the most expensive dishes first, and the reverse for `price-desc`. Even after that was fixed, picking "Price: low to high" in the browser still showed the default order. The server log showed `sort=price-asc&page=2`, with no page 1 request being used, and the header said "Showing 20 dishes, first Rs. 66".
+
+**Cause:**
+Two problems. (1) In `SORTERS` in the search logic, the comparators for `price-asc` and `price-desc` were swapped. (2) In `menu.js`, changing the sort started a fresh load, but while it ran, the grid was replaced by skeleton cards, the scroll sentinel became visible, and the infinite-scroll observer fired because `state.hasMore` was still true from the old list. It bumped the page to 2 and started an append load, which made the page-1 request stale. The page-2 response was then appended to the old, unsorted list.
+
+**Fix:**
+(1) Swapped the comparators back so `price-asc` is `a.price - b.price` and `price-desc` is `b.price - a.price`. (2) In `loadMenu`, a fresh (non-append) load now sets `state.hasMore = false` at the start, so the observer can't fire during it. The next response sets `hasMore` again. I fixed it in `loadMenu` because that is the one place that knows a fresh load has started.
+
+**Checked:**
+Restarted the server, hard refreshed, and chose both sort options. The request is now `page=1` and the list starts at 16.50 for low to high and 138.50 for high to low. Scrolling loads further pages in the same order.
 
 **Time:**
+About 40 minutes.
 
 ## CC-0X — "<the complaint, in short>"
 
