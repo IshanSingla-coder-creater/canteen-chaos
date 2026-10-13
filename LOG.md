@@ -177,13 +177,13 @@ For anything you investigated but did not solve. Say what you tried and
 where you got to. This is worth marks — leaving it blank when you got
 stuck is not.
 
-### CC-0X — "<the complaint>"
+### CC-08: "An old coupon still works"
 
-**What I tried:**
+**What I tried:**searched the codebase for FRESHERS24 and the located the coupon validation function in the checkout services.checked the coupoun database schema to confirm if an expiryDate field exists.
 
-**Where I got to:**
+**Where I got to:**found that the validation logic only check if the coupon code exist and is active .
 
-**What I would try next:**
+**What I would try next:**add an expiration condition in the validation handler. add a test case for expired coupon to ensure the API return 400 validation error.
 
 ## Extra credit
 
