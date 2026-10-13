@@ -2,13 +2,13 @@
 // Ranking dishes for a search box. Kept out of the route so it can be
 // tested on its own.
 
-const STOP_WORDS = new Set(['the', 'a', 'an', 'with', 'and', 'of']);
+const STOP_WORDS = new Set(["the", "a", "an", "with", "and", "of"]);
 
 /** "Chilli  Paneer!" -> ["chilli", "paneer"] */
 function tokenize(text) {
-  return String(text || '')
+  return String(text || "")
     .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/[^a-z0-9\s]/g, " ")
     .split(/\s+/)
     .filter((t) => t.length > 1 && !STOP_WORDS.has(t));
 }
@@ -72,15 +72,20 @@ function searchDishes(menu, query) {
 function suggest(menu, query, limit = 6) {
   return searchDishes(menu, query)
     .slice(0, limit)
-    .map((d) => ({ id: d.id, name: d.name, category: d.category, price: d.price }));
+    .map((d) => ({
+      id: d.id,
+      name: d.name,
+      category: d.category,
+      price: d.price,
+    }));
 }
 
 const SORTERS = {
-  'price-asc': (a, b) => b.price - a.price,
-  'price-desc': (a, b) => a.price - b.price,
-  'rating-desc': (a, b) => b.rating - a.rating,
-  'name-asc': (a, b) => a.name.localeCompare(b.name),
-  'prep-asc': (a, b) => a.prepMinutes - b.prepMinutes,
+  "price-asc": (a, b) => a.price - b.price,
+  "price-desc": (a, b) => b.price - a.price,
+  "rating-desc": (a, b) => b.rating - a.rating,
+  "name-asc": (a, b) => a.name.localeCompare(b.name),
+  "prep-asc": (a, b) => a.prepMinutes - b.prepMinutes,
   popular: (a, b) => (b.orderCount || 0) - (a.orderCount || 0),
   default: (a, b) => Number(b.orderable) - Number(a.orderable) || a.id - b.id,
 };
@@ -98,7 +103,7 @@ function paginate(list, page = 1, limit = 12) {
   const items = list.slice(start, start + perPage);
 
   return {
-    items: list,
+    items,
     page: pageNum,
     limit: perPage,
     total: list.length,
@@ -107,4 +112,12 @@ function paginate(list, page = 1, limit = 12) {
   };
 }
 
-module.exports = { tokenize, scoreDish, searchDishes, suggest, sortDishes, paginate, SORTERS };
+module.exports = {
+  tokenize,
+  scoreDish,
+  searchDishes,
+  suggest,
+  sortDishes,
+  paginate,
+  SORTERS,
+};
